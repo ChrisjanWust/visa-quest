@@ -1,6 +1,13 @@
 .idea/
 .scrapy/
-venv/
-env/
-**__pycache__/
 data/
+tmp/
+venv/
+**.pyc
+
+# data files
+**.parquet
+**.csv
+**.gzip
+**.zip
+**.gz
