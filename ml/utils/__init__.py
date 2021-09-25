@@ -1,4 +1,5 @@
 from functools import partial
+from typing import Union
 import pandas as pd
 from pathlib import Path
 
@@ -10,7 +11,7 @@ def get_extension(path: str):
     return extension
 
 
-def read_file(path: str) -> pd.DataFrame:
+def read_file(path: Union[str, Path], **kwargs) -> pd.DataFrame:
     if isinstance(path, Path):
         path = str(path)
     read_func_mapping = {
@@ -20,4 +21,4 @@ def read_file(path: str) -> pd.DataFrame:
         "parquet": pd.read_parquet,
     }
     read_function = read_func_mapping[get_extension(path)]
-    return read_function(path)
+    return read_function(path, **kwargs)

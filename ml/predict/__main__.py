@@ -1,19 +1,35 @@
+import pickle
 import sklearn.base
-
+from lazy_object_proxy import Proxy
 from features.features import to_features
+from ml.training.__main__ import MODEL_PATH
 
-clf: sklearn.tree.DecisionTreeClassifier
+
+def load_model():
+    with open(MODEL_PATH, "rb") as f:
+        return pickle.load(f)
+
+
+clf: sklearn.tree.DecisionTreeClassifier = Proxy(load_model)
 
 
 def predict_class(texts):
     X = [list(to_features(text).values()) for text in texts]
-    probas = clf.predict_proba(X)
-    return [(clf.classes_[proba.argmax()], proba.max()) for proba in probas]
+    proba_sets = clf.predict_proba(X)
+    return [
+        {
+            class_name: proba
+            for class_name, proba in sorted(
+                zip(proba_set, clf.classes_), key=lambda tup: tup[0]
+            )
+        }
+        for proba_set in proba_sets
+    ]
 
 
-predictions = clf.predict_proba(
-    [list(to_features(text).values()) for text in ["Machine Learning Engineer"]]
-)
+def test_load_model():
+    assert isinstance(clf, sklearn.base.ClassifierMixin)
 
 
-predict_class("Title: Machine Learning Engineer")
+def test_predict_class():
+    assert predict_class(["Machine Learning Engineer"] == "title")

@@ -2,3 +2,5 @@ pandas
 pyarrow
 lightgbm
 sklearn
+lazy-object-proxy
+pathos
