@@ -1,0 +1,8 @@
+scrapy
+requests
+cfscrape
+scrapy-useragents
+scrapy-rotating-proxies
+beautifulsoup4
+pytest
+scrapy-splash
