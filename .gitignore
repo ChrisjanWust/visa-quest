@@ -11,3 +11,4 @@ venv/
 **.gzip
 **.zip
 **.gz
+**.pickle
